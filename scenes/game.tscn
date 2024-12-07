@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://c0hlo6pmtjcyn"]
+
+[ext_resource type="Texture2D" uid="uid://dxhl0r0ojxwag" path="res://assets/GameBg.png" id="1_87dkf"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_rheni"]
+[ext_resource type="PackedScene" uid="uid://c1pp708mqpysf" path="res://scenes/paddle.tscn" id="2_mvdrh"]
+[ext_resource type="PackedScene" uid="uid://bs6hflrojflhc" path="res://scenes/gem.tscn" id="3_6h1g0"]
+[ext_resource type="AudioStream" uid="uid://xtt45mr55q3m" path="res://assets/bgm_action_5.mp3" id="5_vnm6s"]
+[ext_resource type="AudioStream" uid="uid://67l0wydvj7bi" path="res://assets/spell1_0.wav" id="6_10cq5"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_rheni")
+gem_scene = ExtResource("3_6h1g0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+
+[node name="GameBg" type="Sprite2D" parent="."]
+position = Vector2(581, 334)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_87dkf")
+
+[node name="Paddle" parent="." instance=ExtResource("2_mvdrh")]
+position = Vector2(594, 619)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 134.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(1, 0.367774, 0.651932, 1)
+theme_override_colors/font_shadow_color = Color(0.791717, 0.252259, 0.38294, 1)
+theme_override_colors/font_outline_color = Color(0.599153, 0.165974, 0.413922, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 48
+text = "0000"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_vnm6s")
+volume_db = -16.285
+autoplay = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_10cq5")
+
+[connection signal="area_entered" from="Paddle" to="." method="_on_paddle_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
